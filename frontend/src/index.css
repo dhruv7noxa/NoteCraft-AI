@@ -1,0 +1,258 @@
+/* ============================================================
+   NOTECRAFT — Yellow × Black × White Design System v5.0
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+/* ── LIGHT MODE (White + Yellow) ── */
+:root {
+  --bg-primary:    #ffffff;
+  --bg-secondary:  #fafafa;
+  --bg-card:       #f5f5f5;
+
+  --text-primary:  #0a0a0a;
+  --text-secondary:#555555;
+  --text-muted:    #999999;
+
+  --accent-yellow: #FFD600;
+  --accent-yellow-dark: #E6C000;
+  --accent-yellow-light: #FFF9C4;
+  --accent-black:  #0a0a0a;
+  --accent-white:  #ffffff;
+
+  /* Legacy aliases — kept for backward compat */
+  --accent-blue:   #FFD600;
+  --accent-purple: #0a0a0a;
+  --accent-primary: #FFD600;
+  --accent-secondary: #0a0a0a;
+
+  --glass-bg:      rgba(255,255,255,0.75);
+  --border-color:  #e0e0e0;
+  --border-strong: #0a0a0a;
+
+  --shadow-soft:   0 2px 12px rgba(0,0,0,0.06);
+  --shadow-hover:  0 8px 28px rgba(0,0,0,0.12);
+  --shadow-yellow: 0 6px 24px rgba(255,214,0,0.35);
+
+  --accent-blue-rgb:   255,214,0;
+  --accent-yellow-rgb: 255,214,0;
+  --accent-purple-rgb: 10,10,10;
+}
+
+/* ── DARK MODE (Black + Yellow) ── */
+body.dark-theme {
+  --bg-primary:    #0a0a0a;
+  --bg-secondary:  #141414;
+  --bg-card:       #1c1c1c;
+
+  --text-primary:  #ffffff;
+  --text-secondary:#aaaaaa;
+  --text-muted:    #666666;
+
+  --accent-yellow: #FFD600;
+  --accent-yellow-dark: #FFC000;
+  --accent-yellow-light: rgba(255,214,0,0.12);
+  --accent-black:  #ffffff;
+  --accent-white:  #0a0a0a;
+
+  --glass-bg:      rgba(20,20,20,0.85);
+  --border-color:  #2a2a2a;
+  --border-strong: #FFD600;
+
+  --shadow-soft:   0 2px 16px rgba(0,0,0,0.5);
+  --shadow-hover:  0 8px 32px rgba(0,0,0,0.7);
+  --shadow-yellow: 0 6px 24px rgba(255,214,0,0.2);
+}
+
+/* ── BASE ── */
+html, body, #root {
+  width: 100%; height: 100%;
+  margin: 0; padding: 0;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after { box-sizing: inherit; }
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  /* Subtle dot grid */
+  background-image: radial-gradient(circle, var(--border-color) 1px, transparent 1px);
+  background-size: 28px 28px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.dark-theme {
+  background-image: radial-gradient(circle, #1e1e1e 1px, transparent 1px);
+}
+
+/* ── BUTTON SYSTEM ── */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  white-space: nowrap;
+  box-shadow: var(--shadow-soft);
+}
+.btn-pill:hover {
+  background: var(--accent-yellow);
+  color: #0a0a0a;
+  border-color: var(--accent-yellow);
+  box-shadow: var(--shadow-yellow);
+  transform: translateY(-1px);
+}
+.btn-pill:active { transform: scale(0.97); }
+
+body.dark-theme .btn-pill:hover {
+  background: var(--accent-yellow);
+  color: #0a0a0a;
+}
+
+/* Color variants */
+.btn-yellow  { border-color: var(--accent-yellow); color: #0a0a0a; background: var(--accent-yellow); }
+.btn-yellow:hover { background: var(--accent-yellow-dark); border-color: var(--accent-yellow-dark); box-shadow: var(--shadow-yellow); }
+
+.btn-blue    { border-color: var(--border-color); color: var(--text-primary); }
+.btn-blue:hover { background: var(--accent-yellow); color: #0a0a0a; }
+
+.btn-purple  { border-color: var(--border-color); color: var(--text-primary); }
+.btn-purple:hover { background: var(--text-primary); color: var(--bg-primary); }
+
+/* Solid variants */
+.btn-solid-yellow   { background: var(--accent-yellow); color: #0a0a0a; border-color: var(--accent-yellow); font-weight: 700; }
+.btn-solid-yellow:hover { background: var(--accent-yellow-dark); box-shadow: var(--shadow-yellow); transform: translateY(-2px); }
+
+.btn-solid-blue     { background: #0a0a0a; color: #FFD600; border-color: #0a0a0a; font-weight: 700; }
+.btn-solid-blue:hover { background: #222; box-shadow: 0 8px 24px rgba(0,0,0,0.3); transform: translateY(-2px); }
+body.dark-theme .btn-solid-blue { background: #FFD600; color: #0a0a0a; border-color: #FFD600; }
+body.dark-theme .btn-solid-blue:hover { background: #E6C000; }
+
+.btn-solid-purple   { background: #0a0a0a; color: #FFD600; border-color: #0a0a0a; font-weight: 700; }
+.btn-solid-purple:hover { background: #1a1a1a; box-shadow: 0 8px 24px rgba(0,0,0,0.35); transform: translateY(-2px); }
+body.dark-theme .btn-solid-purple { background: #FFD600; color: #0a0a0a; border-color: #FFD600; }
+body.dark-theme .btn-solid-purple:hover { background: #E6C000; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseYellow {
+  0%,100% { box-shadow: 0 0 0 0 rgba(255,214,0,0.5); }
+  50%      { box-shadow: 0 0 0 8px rgba(255,214,0,0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes rocketFloat {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50%     { transform: translateY(-4px) rotate(-3deg); }
+}
+
+@keyframes bulbGlow {
+  0%,100% { filter: drop-shadow(0 0 3px #FFD600); }
+  50%     { filter: drop-shadow(0 0 10px #FFD600) drop-shadow(0 0 20px #FFD60060); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-soft  { animation: fadeSlideUp 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+.bulb-active   { animation: bulbGlow 2s ease-in-out infinite; }
+.rocket-active { animation: rocketFloat 2s ease-in-out infinite; }
+
+/* Loading shimmer */
+.shimmer {
+  background: linear-gradient(90deg, var(--bg-card) 25%, var(--accent-yellow-light) 50%, var(--bg-card) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ── BADGE ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: var(--accent-yellow);
+  color: #0a0a0a;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-soft);
+}
+.card:hover {
+  border-color: var(--accent-yellow);
+  box-shadow: var(--shadow-yellow);
+  transform: translateY(-2px);
+}
+
+/* ── SCROLL ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-yellow); }
+
+/* ── INPUT ── */
+.nc-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.nc-input:focus {
+  border-color: var(--accent-yellow);
+  box-shadow: 0 0 0 3px rgba(255,214,0,0.15);
+}
+
+/* ── SVG FIX (Excalidraw) ── */
+body > svg, svg[aria-hidden="true"], symbol {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important; height: 0 !important;
+  position: absolute; z-index: -9999;
+}
+.excalidraw svg {
+  display: block !important;
+  visibility: visible !important;
+  width: auto !important; height: auto !important;
+  position: static; z-index: auto;
+}
