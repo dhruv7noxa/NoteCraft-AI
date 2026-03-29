@@ -38,7 +38,7 @@ const Board = () => {
 
     const fetchSession = async () => {
       try {
-        const resp = await fetch(`http://localhost:5000/api/sessions/${sessionId}`);
+        const resp = await fetch(`https://notecraft-backend-vpad.onrender.com/api/sessions/${sessionId}`);
         if (!resp.ok) {
           console.log('[Board] New session – no existing data');
           return;
@@ -120,7 +120,7 @@ const Board = () => {
     const elements = excalidrawAPI.getSceneElements();
     console.log(`[Board] Saving ${elements.length} elements for session ${sessionId}`);
     try {
-      const resp = await fetch('http://localhost:5000/api/sessions', {
+      const resp = await fetch('https://notecraft-backend-vpad.onrender.com/api/sessions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: sessionId, name: sessionName, board_data: elements }),

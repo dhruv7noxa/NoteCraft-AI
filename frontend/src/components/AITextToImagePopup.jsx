@@ -15,7 +15,7 @@ const AITextToImagePopup = ({ isOpen, onClose }) => {
     }
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/generate-image-from-text', {
+      const response = await fetch('https://notecraft-backend-vpad.onrender.com/api/generate-image-from-text', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: prompt })
