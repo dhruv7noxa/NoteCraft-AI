@@ -1,6 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Layout, User, MapPin, Mail, Phone, Zap, Sparkles, PenTool, Trash2 } from 'lucide-react';
+import { ArrowRight, Layout, User, MapPin, Mail, Phone, Zap, Sparkles, PenTool, Trash2, Code, Database, Palette, Home as HomeIcon } from 'lucide-react';
+
+const teamMembers = [
+  {
+    name: "Dhruv Meena",
+    role: "Lead Architect & Full-Stack Developer",
+    quote: `"NoteCraft is built to democratize digital creativity. As a developer at IIT Patna, I wanted to break barriers between imagination and execution."`,
+    email: "dhruv_2312res913@iitp.ac.in",
+    contact: "+91 7850899192",
+    icon: <User size={36} color="#0a0a0a" />
+  },
+  {
+    name: "Md Meezan Khan",
+    role: "Frontend Developer (Interface & UI)",
+    quote: `"Crafting interfaces that feel fluid, responsive, and natural. Good UI design is about making complex tools feel incredibly simple."`,
+    email: "meezan_2312res380@iitp.ac.in",
+    contact: "+91 74884 23272",
+    icon: <Layout size={36} color="#0a0a0a" />
+  },
+  {
+    name: "Sandeep Mehta",
+    role: "Backend Developer (API & AI Service)",
+    quote: `"Architecting robust, low-latency API pipelines and coordinating AI services to power our magic canvas and smart backend features."`,
+    email: "sandeep_2312res990@iitp.ac.in",
+    contact: "+91 79767 12864",
+    icon: <Code size={36} color="#0a0a0a" />
+  },
+  {
+    name: "Saurav Mehta",
+    role: "Backend Developer (Database & Storage)",
+    quote: `"Optimizing backend data structures and managing Supabase PostgreSQL jsonb storage to guarantee seamless, secure real-time board saves."`,
+    email: "saurav_2312res896@iitp.ac.in",
+    contact: "+91 99691 27776",
+    icon: <Database size={36} color="#0a0a0a" />
+  },
+  {
+    name: "Abhiram Mh",
+    role: "Frontend Developer (Theming & Stylist)",
+    quote: `"Designing stunning modern typography, high-contrast layouts, and glassmorphic micro-animations to deliver a gorgeous dark mode interface."`,
+    email: "abhiram_2312res13@iitp.ac.in",
+    contact: "+91 72044 32516",
+    icon: <Palette size={36} color="#0a0a0a" />
+  }
+];
+
 
 const Home = () => {
   const [sessions, setSessions] = useState([]);
@@ -264,63 +308,127 @@ const Home = () => {
         )}
       </div>
 
-      {/* ── ABOUT ── */}
+      {/* ── DIVIDER ── */}
       <div style={{
-        width: '100%', maxWidth: '1100px', padding: '0 40px 80px',
+        width: '100%', maxWidth: '1100px', padding: '0 40px',
+        display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '24px',
         marginTop: '20px'
       }}>
+        <div style={{ height: '1px', flex: 1, background: 'var(--border-color)' }} />
+        <span style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.15em',
+          color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+          Meet the Team (Group 91)
+        </span>
+        <div style={{ height: '1px', flex: 1, background: 'var(--border-color)' }} />
+      </div>
+
+      {/* ── GROUP INFO ── */}
+      <div style={{
+        width: '100%', maxWidth: '1100px', padding: '0 40px', marginBottom: '32px'
+      }}>
         <div style={{
-          background: 'var(--bg-card)', border: '1.5px solid var(--border-color)',
-          borderRadius: '8px', padding: '48px', display: 'flex',
-          gap: '48px', alignItems: 'flex-start', flexWrap: 'wrap'
+          background: 'linear-gradient(135deg, rgba(255, 214, 0, 0.05) 0%, rgba(10, 10, 10, 0) 100%)',
+          border: '1.5px dashed var(--border-color)',
+          borderRadius: '8px', padding: '32px', display: 'flex',
+          gap: '24px', alignItems: 'center', flexWrap: 'wrap'
         }}>
           <div style={{
-            width: '72px', height: '72px', background: '#FFD600',
-            borderRadius: '8px', display: 'flex', alignItems: 'center',
-            justifyContent: 'center', flexShrink: 0
+            width: '56px', height: '56px', background: '#FFD600',
+            borderRadius: '50%', display: 'flex', alignItems: 'center',
+            justifyContent: 'center', flexShrink: 0,
+            boxShadow: '0 0 20px rgba(255, 214, 0, 0.2)'
           }}>
-            <User size={36} color="#0a0a0a" />
+            <HomeIcon size={24} color="#0a0a0a" />
           </div>
-
           <div style={{ flex: 1, minWidth: '280px' }}>
-            <p style={{ margin: '0 0 4px', fontSize: '0.65rem', fontWeight: 700,
-              color: 'var(--accent-yellow)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-              Lead Architect
+            <h4 style={{ margin: '0 0 6px', fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
+              Group No. 91 — Indian Institute of Technology Patna
+            </h4>
+            <p style={{ margin: '0 0 12px', fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+              All pursuing Bachelor of Technology in Computer Science from the Indian Institute of Technology Patna.
             </p>
-            <h3 style={{ margin: '0 0 20px', fontSize: '1.8rem', fontWeight: 700, letterSpacing: '-0.03em' }}>
-              Dhruv Meena
-            </h3>
-            <p style={{ margin: '0 0 32px', color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '0.95rem',
-              borderLeft: '3px solid #FFD600', paddingLeft: '16px' }}>
-              "NoteCraft is built to democratize digital creativity. As a developer at IIT Patna,
-              I wanted to break barriers between imagination and execution."
-            </p>
-            <div style={{
-              display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px'
-            }}>
-              {[
-                { icon: <User size={14} />, label: 'Institute', val: 'IIT Patna' },
-                { icon: <Mail size={14} />, label: 'Email', val: 'dhruv123meena@gmail.com' },
-                { icon: <Phone size={14} />, label: 'Contact', val: '+91 7850899192' },
-                { icon: <MapPin size={14} />, label: 'Location', val: 'Bihta, Bihar' },
-              ].map(item => (
-                <div key={item.label}>
-                  <p style={{ margin: '0 0 2px', fontSize: '0.65rem', fontWeight: 700,
-                    letterSpacing: '0.1em', color: 'var(--text-muted)', textTransform: 'uppercase',
-                    display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    {item.icon} {item.label}
-                  </p>
-                  <p style={{ margin: 0, fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                    {item.val}
-                  </p>
-                </div>
-              ))}
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+              <MapPin size={14} color="#FFD600" style={{ marginTop: '3px', flexShrink: 0 }} />
+              <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
+                <strong>College Address:</strong> C.V. Raman Hostel, Indian Institute of Technology Patna, Bihta Kanpa Rd, Patna, Dayalpur, Daulatpur, Bihar 801106
+              </p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* ── TEAM MEMBERS ── */}
+      <div style={{
+        width: '100%', maxWidth: '1100px', padding: '0 40px 80px',
+        display: 'flex', flexDirection: 'column', gap: '32px'
+      }}>
+        {teamMembers.map((member, index) => (
+          <div key={member.name} style={{
+            background: 'var(--bg-card)', border: '1.5px solid var(--border-color)',
+            borderRadius: '8px', padding: '48px', display: 'flex',
+            gap: '48px', alignItems: 'flex-start', flexWrap: 'wrap',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+          className="card"
+          >
+            {/* Subtle index badge */}
+            <div style={{
+              position: 'absolute', top: '16px', right: '24px',
+              fontSize: '2.5rem', fontWeight: 900, color: 'rgba(255, 214, 0, 0.04)',
+              userSelect: 'none', pointerEvents: 'none'
+            }}>
+              0{index + 1}
+            </div>
+
+            <div style={{
+              width: '72px', height: '72px', background: '#FFD600',
+              borderRadius: '8px', display: 'flex', alignItems: 'center',
+              justifyContent: 'center', flexShrink: 0
+            }}>
+              {member.icon}
+            </div>
+
+            <div style={{ flex: 1, minWidth: '280px' }}>
+              <p style={{ margin: '0 0 4px', fontSize: '0.65rem', fontWeight: 700,
+                color: 'var(--accent-yellow)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+                {member.role}
+              </p>
+              <h3 style={{ margin: '0 0 20px', fontSize: '1.8rem', fontWeight: 700, letterSpacing: '-0.03em' }}>
+                {member.name}
+              </h3>
+              <p style={{ margin: '0 0 32px', color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '0.95rem',
+                borderLeft: '3px solid #FFD600', paddingLeft: '16px' }}>
+                {member.quote}
+              </p>
+              <div style={{
+                display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px'
+              }}>
+                {[
+                  { icon: <User size={14} />, label: 'Institute', val: 'IIT Patna' },
+                  { icon: <Mail size={14} />, label: 'Email', val: member.email },
+                  { icon: <Phone size={14} />, label: 'Contact', val: member.contact },
+                  { icon: <MapPin size={14} />, label: 'Location', val: 'Bihta, Bihar' },
+                ].map(item => (
+                  <div key={item.label}>
+                    <p style={{ margin: '0 0 2px', fontSize: '0.65rem', fontWeight: 700,
+                      letterSpacing: '0.1em', color: 'var(--text-muted)', textTransform: 'uppercase',
+                      display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      {item.icon} {item.label}
+                    </p>
+                    <p style={{ margin: 0, fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)', wordBreak: 'break-all' }}>
+                      {item.val}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
+
 
 export default Home;
