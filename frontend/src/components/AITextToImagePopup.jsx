@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Type, Image as ImageIcon } from 'lucide-react';
+import { BACKEND_URL } from '../lib/config';
 
 const AITextToImagePopup = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,8 @@ const AITextToImagePopup = ({ isOpen, onClose }) => {
     }
     setLoading(true);
     try {
-      const response = await fetch('https://notecraft-backend-vpad.onrender.com/api/generate-image-from-text', {
+      const response = await fetch(`${BACKEND_URL}/api/generate-image-from-text`, {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: prompt })

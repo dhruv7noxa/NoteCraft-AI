@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Sparkles, Image as ImageIcon } from 'lucide-react';
 import { exportToBlob } from '@excalidraw/excalidraw';
+import { BACKEND_URL } from '../lib/config';
 
 const AIPopup = ({ isOpen, onClose, elements, appState, files }) => {
   const [loading, setLoading] = useState(false);
@@ -39,7 +40,8 @@ const AIPopup = ({ isOpen, onClose, elements, appState, files }) => {
       );
 
       // Send to Backend
-      const response = await fetch('https://notecraft-backend-vpad.onrender.com/api/generate-image', {
+      const response = await fetch(`${BACKEND_URL}/api/generate-image`, {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ image: base64 })

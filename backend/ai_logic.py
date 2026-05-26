@@ -1,14 +1,16 @@
 import os
 import requests
+import base64
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 
+# List of models to try in sequence. We prefer lite models first to ensure high speed and reliability.
+MODELS_TO_TRY = ["gemini-2.5-flash-lite", "gemini-3.1-flash-lite", "gemini-2.5-flash"]
+
 def analyze_sketch_with_gemini(base64_image: str) -> str:
-    """Uses Gemini 2.5 Flash to describe the base64 sketch via REST API"""
+    """Uses Gemini to describe the base64 sketch via REST API with robust model fallback"""
     if not GEMINI_API_KEY:
         raise ValueError("GEMINI_API_KEY is not set")
-    
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
     
     payload = {
         "contents": [{
@@ -22,24 +24,26 @@ def analyze_sketch_with_gemini(base64_image: str) -> str:
         }]
     }
     
-    response = requests.post(url, json=payload, headers={"Content-Type": "application/json"})
-    response.raise_for_status()
-    
-    data = response.json()
-    try:
-        return data["candidates"][0]["content"]["parts"][0]["text"].strip()
-    except (KeyError, IndexError):
-        return "An abstract whiteboard sketch."
+    for model in MODELS_TO_TRY:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
+        try:
+            print(f"[AI vision] Trying model: {model}")
+            response = requests.post(url, json=payload, headers={"Content-Type": "application/json"}, timeout=15)
+            response.raise_for_status()
+            data = response.json()
+            text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+            print(f"[AI vision] Success with {model}: {text}")
+            return text
+        except Exception as e:
+            print(f"[AI vision] Model {model} failed: {e}")
+            
+    return "An abstract whiteboard sketch."
 
 def generate_image_with_nano_banana(description: str) -> str:
     """
-    Generates a literal image by asking Gemini 2.5 Flash to write beautiful SVG code, 
+    Generates a literal image by asking Gemini to write beautiful SVG code, 
     completely eliminating the need for third-party flaky free image generators.
     """
-    import base64
-    import requests
-    
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
     # Much more descriptive prompt for higher artistic quality
     prompt = (
         f"You are a master vector illustrator and graphic designer. "
@@ -58,30 +62,35 @@ def generate_image_with_nano_banana(description: str) -> str:
         "generationConfig": {"temperature": 0.4}
     }
     
-    try:
-        response = requests.post(url, json=payload, headers={"Content-Type": "application/json"})
-        response.raise_for_status()
-        data = response.json()
-        svg_text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
-        
-        # Cleanup markdown if output by the AI
-        if svg_text.startswith("```"):
-            svg_text = svg_text.split("```", 1)[-1]
-            if "\n" in svg_text:
-                first_line = svg_text.split("\n")[0]
-                if first_line.strip().lower() in ["svg", "xml"]:
-                    svg_text = svg_text[len(first_line)+1:]
-        if svg_text.endswith("```"):
-            svg_text = svg_text[:-3]
+    for model in MODELS_TO_TRY:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
+        try:
+            print(f"[SVG Gen] Trying model: {model}")
+            response = requests.post(url, json=payload, headers={"Content-Type": "application/json"}, timeout=15)
+            response.raise_for_status()
+            data = response.json()
+            svg_text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
             
-        svg_text = svg_text.strip()
-        
-        # Encode as a data URI so the frontend can drop it straight into the <img> tag
-        encoded_svg = base64.b64encode(svg_text.encode('utf-8')).decode('utf-8')
-        return f"data:image/svg+xml;base64,{encoded_svg}"
-        
-    except Exception as e:
-        print(f"SVG Generation Failed: {e}")
-        # Extreme fallback
-        fallback = f'<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="400" fill="#f3f4f6"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#4b5563">Failed to load API Image</text></svg>'
-        return f"data:image/svg+xml;base64,{base64.b64encode(fallback.encode('utf-8')).decode('utf-8')}"
+            # Cleanup markdown if output by the AI
+            if svg_text.startswith("```"):
+                svg_text = svg_text.split("```", 1)[-1]
+                if "\n" in svg_text:
+                    first_line = svg_text.split("\n")[0]
+                    if first_line.strip().lower() in ["svg", "xml"]:
+                        svg_text = svg_text[len(first_line)+1:]
+            if svg_text.endswith("```"):
+                svg_text = svg_text[:-3]
+                
+            svg_text = svg_text.strip()
+            
+            # Encode as a data URI so the frontend can drop it straight into the <img> tag
+            encoded_svg = base64.b64encode(svg_text.encode('utf-8')).decode('utf-8')
+            print(f"[SVG Gen] Success with {model}")
+            return f"data:image/svg+xml;base64,{encoded_svg}"
+        except Exception as e:
+            print(f"[SVG Gen] Model {model} failed: {e}")
+            
+    # Extreme fallback
+    fallback = f'<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="400" fill="#f3f4f6"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#4b5563">Failed to load API Image</text></svg>'
+    return f"data:image/svg+xml;base64,{base64.b64encode(fallback.encode('utf-8')).decode('utf-8')}"
+

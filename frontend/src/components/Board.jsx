@@ -9,6 +9,8 @@ import AIPopup from './AIPopup';
 import AITextToImagePopup from './AITextToImagePopup';
 import WebImagePopup from './WebImagePopup';
 import CreativeSidebar from './CreativeSidebar';
+import { BACKEND_URL } from '../lib/config';
+
 
 // AI Icons Constants
 const BULB_SRC = "/custom_bulb.png";
@@ -38,7 +40,7 @@ const Board = () => {
 
     const fetchSession = async () => {
       try {
-        const resp = await fetch(`https://notecraft-backend-vpad.onrender.com/api/sessions/${sessionId}`);
+        const resp = await fetch(`${BACKEND_URL}/api/sessions/${sessionId}`);
         if (!resp.ok) {
           console.log('[Board] New session – no existing data');
           return;
@@ -120,11 +122,12 @@ const Board = () => {
     const elements = excalidrawAPI.getSceneElements();
     console.log(`[Board] Saving ${elements.length} elements for session ${sessionId}`);
     try {
-      const resp = await fetch('https://notecraft-backend-vpad.onrender.com/api/sessions', {
+      const resp = await fetch(`${BACKEND_URL}/api/sessions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: sessionId, name: sessionName, board_data: elements }),
       });
+
       const result = await resp.json();
       if (resp.ok) {
         const savedCount = result?.session?.board_data?.length ?? '?';

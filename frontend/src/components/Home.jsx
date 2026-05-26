@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Layout, User, MapPin, Mail, Phone, Zap, Sparkles, PenTool, Trash2, Code, Database, Palette, Home as HomeIcon } from 'lucide-react';
+import { BACKEND_URL } from '../lib/config';
 
 const teamMembers = [
   {
@@ -54,7 +55,7 @@ const Home = () => {
 
   const fetchSessions = () => {
     setLoading(true);
-    fetch('https://notecraft-backend-vpad.onrender.com/api/sessions')
+    fetch(`${BACKEND_URL}/api/sessions`)
       .then(res => res.json())
       .then(data => { if (data.sessions) setSessions(data.sessions); })
       .catch(err => console.error('Failed to load sessions', err))
@@ -70,7 +71,7 @@ const Home = () => {
     if (!window.confirm('Delete this session? This cannot be undone.')) return;
     setDeletingId(sessionId);
     try {
-      const resp = await fetch(`https://notecraft-backend-vpad.onrender.com/api/sessions/${sessionId}`, { method: 'DELETE' });
+      const resp = await fetch(`${BACKEND_URL}/api/sessions/${sessionId}`, { method: 'DELETE' });
       const result = await resp.json().catch(() => ({}));
 
       if (resp.status === 403 && result.rls_blocked) {
